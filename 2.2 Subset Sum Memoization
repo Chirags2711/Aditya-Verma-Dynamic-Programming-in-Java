@@ -1,0 +1,18 @@
+class Solution{
+    static Boolean isSubsetSum(int N, int arr[], int sum){
+        Boolean dp[][] = new Boolean[N+1][sum+1];
+        return fun(N, arr, sum, dp);
+    }
+    static Boolean fun(int N, int arr[], int sum, Boolean[][] dp){
+        if(sum == 0) return true;
+        if(N == 0) return false;
+        if(dp[N][sum]!=null) return dp[N][sum];
+        boolean ans;
+        if(arr[N-1]<=sum){
+            ans = fun(N-1, arr, sum, dp) || fun(N-1, arr, sum-arr[N-1], dp);
+        }else{
+            ans = fun(N-1, arr, sum, dp);
+        }
+        return dp[N][sum] = ans;
+    }
+}
