@@ -1,0 +1,37 @@
+class Solution
+{
+	public int minDifference(int arr[], int N) 
+	{ 
+	    long S = 0;
+	    for(int i: arr){
+	        S+=i;
+	    }
+	    int sum = (int)(S/2);
+	    Boolean dp[][] = new Boolean[N+1][sum+1];
+        for(int i=0; i<=N; i++){
+            dp[i][0] = true;
+        }
+        for(int i=1; i<=sum; i++){
+            dp[0][i] = false;
+        }
+        for(int i=1; i<=N; i++){
+            for(int j=1; j<=sum; j++){
+                Boolean ans;
+                if(arr[i-1]<=j){
+                    ans = dp[i-1][j] || dp[i-1][j-arr[i-1]];
+                }else{
+                    ans = dp[i-1][j];
+                }
+                dp[i][j] = ans;
+            }
+        }
+	    int sum1 = 0;
+	    for(int i=sum; i>=0; i--){
+	        if(dp[N][i]){
+	            sum1 = i;
+	            break;
+	        }
+	    }
+	    return (int)(S - 2*sum1);
+	}
+}
