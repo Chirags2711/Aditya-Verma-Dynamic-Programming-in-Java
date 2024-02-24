@@ -1,0 +1,16 @@
+class Solution{
+    static int knapSack(int N, int W, int val[], int wt[])
+    {
+        return fun(N, W, val, wt);
+    }
+    static int fun(int N, int W, int val[], int wt[]){
+        if(W==0 || N==0) return 0;
+        int ans;
+        if(wt[N-1]<=W){
+            ans = Math.max(fun(N-1, W, val, wt), val[N-1] + fun(N, W-wt[N-1], val, wt));
+        }else{
+            ans = fun(N-1, W, val, wt);
+        }
+        return ans;
+    }
+}
