@@ -1,0 +1,31 @@
+class Solution
+{
+    public int LongestRepeatingSubsequence(String str)
+    {
+        return lcsModified(str.length(), str.length(), str, str);
+    }
+    //Function to find the length of longest common subsequence in two strings.
+    int lcsModified(int x, int y, String s1, String s2)
+    {
+        // your code here
+        int dp[][]=new int[x+1][y+1];
+        for(int i=0; i<=x; i++){
+            dp[i][0] = 0;
+        }
+        for(int i=0; i<=y; i++){
+            dp[0][i] = 0;
+        }
+        for(int i=1; i<=x; i++){
+            for(int j=1; j<=y; j++){
+                int ans;
+                if(s1.charAt(i-1)==s2.charAt(j-1) && i!=j){ //added i!=j
+                    ans = 1 + dp[i-1][j-1];
+                }else{
+                    ans = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[x][y];
+    }
+}
