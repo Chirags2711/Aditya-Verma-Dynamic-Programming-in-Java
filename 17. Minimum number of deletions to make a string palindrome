@@ -1,3 +1,4 @@
+//Same code is valid for Insertions
 int minDeletions(String str, int n)
     {
         return n - longestPalinSubseq(str);
