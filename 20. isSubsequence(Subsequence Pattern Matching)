@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        return lcs(s.length(), t.length(), s, t) == s.length(); 
+        //here, length can ony be equal if LCS is equal
+    }
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        // your code here
+        int dp[][]=new int[x+1][y+1];
+        for(int i=0; i<=x; i++){
+            dp[i][0] = 0;
+        }
+        for(int i=0; i<=y; i++){
+            dp[0][i] = 0;
+        }
+        for(int i=1; i<=x; i++){
+            for(int j=1; j<=y; j++){
+                int ans;
+                if(s1.charAt(i-1)==s2.charAt(j-1)){
+                    ans = 1 + dp[i-1][j-1];
+                }else{
+                    ans = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[x][y];
+    }
+}
