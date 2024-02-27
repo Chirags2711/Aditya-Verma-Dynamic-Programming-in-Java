@@ -1,0 +1,29 @@
+class Solution{
+    static int palindromicPartition(String str)
+    {
+        int n = str.length();
+        return fun(0, n-1, str);
+    }
+    static int fun(int i, int j, String str){
+        if(i>=j) return 0;
+        if(isPalindrome(i, j, str)){
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        for(int k=i; k<j; k++){
+            int temp = 1 + fun(i, k, str) + fun(k+1, j, str);
+            ans = Math.min(temp, ans);
+        }
+        return ans;
+    }
+    static boolean isPalindrome(int i, int j, String str){
+        while(i<=j){
+            if(str.charAt(i) != str.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
