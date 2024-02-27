@@ -1,0 +1,19 @@
+class Solution{
+    static int matrixMultiplication(int N, int arr[])
+    {
+        return fun(1, N-1, arr);
+    }
+    static int fun(int i, int j, int arr[]){
+        if(i>=j){
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        for(int k=i; k<j; k++){
+            int temp = fun(i, k, arr)   + 
+                       fun(k+1, j, arr) + 
+                       arr[i-1] * arr[k] * arr[j];
+            ans = Math.min(ans, temp);
+        }
+        return ans;
+    }
+}
