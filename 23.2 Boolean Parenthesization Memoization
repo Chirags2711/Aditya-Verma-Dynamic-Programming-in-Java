@@ -1,0 +1,54 @@
+class Solution{
+    static final int mod = 1003;
+    static int countWays(int n, String s){
+        int dp[][][] = new int[n][n][2];
+        for(int i=0; i<dp.length; i++){
+            for(int j=0; j<dp[0].length; j++){
+                for(int k=0; k<2; k++){
+                    dp[i][j][k] = -1;
+                }
+            }
+        }
+        return fun(0, n-1, s, 'T', dp);
+    }
+    static int fun(int i, int j, String s, char flag, int[][][]dp){
+        if(i>j){
+            return 0;
+        }
+        if(i==j){
+            return flag == s.charAt(i) ? 1 : 0;
+        }
+        if(dp[i][j][flag == 'T' ? 1 : 0]!=-1){
+            return dp[i][j][flag == 'T' ? 1 : 0];
+        }
+        int ans = 0;
+        for(int k=i+1; k<j; k+=2){
+            int lF = (fun(i, k-1, s, 'F', dp))%mod;
+            int lT = (fun(i, k-1, s, 'T', dp))%mod;
+            int rF = (fun(k+1, j, s, 'F', dp))%mod;
+            int rT = (fun(k+1, j, s, 'T', dp))%mod;
+            int temp;
+            if(s.charAt(k)=='&'){
+                if (flag == 'T'){
+                    temp = (lT * rT)%mod;
+                }else{
+                    temp = (lF*rF + lT*rF + rT*lF);
+                }
+            }else if(s.charAt(k)=='|'){
+                if (flag == 'T'){
+                    temp = (lT*rT + lT*rF + rT*lF);
+                }else{
+                    temp = (lF * rF)%mod;
+                }
+            }else{
+                if (flag == 'T'){
+                    temp = (lT*rF + rT*lF);
+                }else{
+                    temp = (lF*rF + lT*rT);
+                }
+            }
+            ans = (ans + temp)%mod;
+        }
+        return dp[i][j][flag == 'T' ? 1 : 0] = ans;
+    }
+}
