@@ -1,0 +1,35 @@
+class Solution{
+    static boolean isScramble(String S1,String S2)
+    {
+        if(S1.length()!=S2.length()) return false;
+        if(S1.length()==0) return true;
+        if(S1.equals(S2)) return true;
+        Map<String, Boolean> map = new HashMap<>();
+        return isScrambleHelper(S1, S2, map);
+    }
+    static boolean isScrambleHelper(String s1, String s2, Map<String, Boolean> map){
+        if(s1.equals(s2)) return true;
+        int n = s1.length();
+        if(n==1) return false;
+        String key = s1+ " " + s2;
+        if(map.containsKey(key)){
+            return map.get(key);
+        }
+        for(int k=1; k<n; k++){
+            boolean noSwap = isScrambleHelper(s1.substring(0,k), s2.substring(0,k), map) 
+                          && isScrambleHelper(s1.substring(k, n), s2.substring(k, n), map);
+            if(noSwap) {
+                map.put(key, true);
+                return true;
+            }
+            boolean swap = isScrambleHelper(s1.substring(0,k), s2.substring(n-k, n), map) 
+                          && isScrambleHelper(s1.substring(k, n), s2.substring(0, n-k), map);
+            if(swap) {
+                map.put(key, true);
+                return true;
+            }
+        }
+        map.put(key, false);
+        return false;
+    }
+}
