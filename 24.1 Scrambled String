@@ -1,0 +1,23 @@
+class Solution{
+    static boolean isScramble(String S1,String S2)
+    {
+        if(S1.length()!=S2.length()) return false;
+        if(S1.length()==0) return true;
+        if(S1.equals(S2)) return true;
+        return isScrambleHelper(S1, S2);
+    }
+    static boolean isScrambleHelper(String s1, String s2){
+        if(s1.equals(s2)) return true;
+        int n = s1.length();
+        if(n==1) return false;
+        for(int k=1; k<n; k++){ //if equal to n, same string will be passed again and again resulting to TLE.
+            boolean noSwap = isScrambleHelper(s1.substring(0,k), s2.substring(0,k)) 
+                          && isScrambleHelper(s1.substring(k, n), s2.substring(k, n));
+            if(noSwap) return true;
+            boolean swap = isScrambleHelper(s1.substring(0,k), s2.substring(n-k, n)) 
+                          && isScrambleHelper(s1.substring(k, n), s2.substring(0, n-k));
+            if(swap) return true;
+        }
+        return false;
+    }
+}
