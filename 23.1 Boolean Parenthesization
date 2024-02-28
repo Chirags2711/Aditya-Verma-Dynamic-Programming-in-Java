@@ -1,0 +1,49 @@
+class Solution{
+    static int countWays(int n, String s){
+        return fun(0, n-1, s, 'T');
+    }
+    static int fun(int i, int j, String s, char flag){
+        if(i>j){
+            // System.out.println("Greater");
+            return 0;
+        }
+        if(i==j){
+            // System.out.println("Equal");
+            return flag == s.charAt(i) ? 1 : 0;
+        }
+        // System.out.println("Bogus");
+        int ans = 0;
+        for(int k=i+1; k<j; k+=2){
+            int lF = fun(i, k-1, s, 'F');
+            // System.out.println(lF);
+            int lT = fun(i, k-1, s, 'T');
+            // System.out.println(lT);
+            int rF = fun(k+1, j, s, 'F');
+            // System.out.println(rF);
+            int rT = fun(k+1, j, s, 'T');
+            // System.out.println(rT);
+            int temp;
+            if(s.charAt(k)=='&'){
+                if (flag == 'T'){
+                    temp = lT * rT;
+                }else{
+                    temp = lF*rF + lT*rF + rT*lF;
+                }
+            }else if(s.charAt(k)=='|'){
+                if (flag == 'T'){
+                    temp = lT*rT + lT*rF + rT*lF;
+                }else{
+                    temp = lF * rF;
+                }
+            }else{
+                if (flag == 'T'){
+                    temp = lT*rF + rT*lF;
+                }else{
+                    temp = lF*rF + lT*rT;
+                }
+            }
+            ans += temp;
+        }
+        return ans;
+    }
+}
