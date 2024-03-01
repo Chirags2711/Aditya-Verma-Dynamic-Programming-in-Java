@@ -1,0 +1,19 @@
+class Solution 
+{
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+    static int eggDrop(int n, int k) 
+	{
+	    if(k==0 || k==1) return k;
+	    if(n==1) return k;
+	    int ans = Integer.MAX_VALUE;
+	    for(int f=1; f<=k; f++){ 
+	        //Where do we try to throw at this move. It doesn't mean that we have checked till f
+	        int broke = eggDrop(n-1, f-1);
+	        int notBroke = eggDrop(n, k-f);
+	        int temp = 1 + Math.max(broke ,notBroke);
+	        ans = Math.min(temp, ans);
+	    }
+	    return ans;
+	}
+}
